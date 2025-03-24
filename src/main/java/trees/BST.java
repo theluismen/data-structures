@@ -69,28 +69,46 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         // Si esta vacio inicializo la root con la data
         if ( this.root == null ) {
             this.root = new Node( data );
-        } else {
-            // Si no, recorro arbol hasta que encuentre una hoja
-            while ( ! node.isLeaf() ) {
-                if ( data.compareTo( node.getData() ) < 0 ) {
-                    node = node.getLeft();
-                }
-                if ( data.compareTo( node.getData() ) > 0 ) {
-                    node = node.getRight();
-                }
-            }
+            this.nElem ++;
+            return;
+        } 
+
+        // Si no, recorro arbol hasta que encuentre una hoja
+        while ( true ) {
             if ( data.compareTo( node.getData() ) < 0 ) {
-                node.setLeft( new Node( data ) );
+                if ( node.getLeft() == null ) 
+                    break;
+                node = node.getLeft();
             }
+
             if ( data.compareTo( node.getData() ) > 0 ) {
-                node.setRight( new Node( data ) );
+                if (node.getRight() == null) 
+                    break;
+                node = node.getRight();
             }
         }
 
+        if ( data.compareTo( node.getData() ) < 0 ) 
+            node.setLeft( new Node( data ) );
+        
+        if ( data.compareTo( node.getData() ) > 0 ) 
+            node.setRight( new Node( data ) );
+        
         this.nElem ++;
     }
 
     public boolean search ( T data ) {
+        Node node = this.root;
+        
+        while ( node != null ) {
+            if ( data.compareTo( node.getData() ) == 0 )
+                return true;
+            if ( data.compareTo( node.getData() ) <  0 )
+                node = node.getLeft();
+            if ( data.compareTo( node.getData() ) >  0 )
+                node = node.getRight();
+        }
+
         return false;
     }
 

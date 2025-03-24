@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class TestBST {
 
     /* TEST .insert() */
-
+    
     @Test
     public void test_insert_1 () {
         BST<Integer> bst = new BST<>();
@@ -21,6 +21,39 @@ public class TestBST {
         assertEquals(20, bst.size());
     }
     
+    /* TEST .search() */
+
+    @Test
+    public void test_search_1 () {
+        BST<Integer> bst = new BST<>();
+                
+        assertEquals(false, bst.search(0));
+    }
+
+    @Test
+    public void test_search_2 () {
+        BST<Integer> bst = new BST<>();
+        bst.insert(34);
+        bst.insert(56);
+        bst.insert(78);
+        bst.insert(77);
+        bst.insert(79);
+        assertEquals(false, bst.search(80));
+    }
+    
+    @Test
+    public void test_search_3 () {
+        BST<Integer> bst = new BST<>();
+        bst.insert(34);
+        bst.insert(56);
+        bst.insert(78);
+        bst.insert(77);
+        bst.insert(79);
+        assertEquals(true, bst.search(77));
+    }
+
+
+
     /* TEST .inorder() */
 
     @Test
@@ -44,8 +77,9 @@ public class TestBST {
         for ( int i = 1; i <= 7; i++) {
             bst.insert( i );
         }
-
+        System.out.println("gei");
         bst.preorderShow();
+        System.out.println("gei");
         assert bst.preorder().equals( new ArrayList<>( Arrays.asList( 4, 2, 1, 3, 6, 5, 7 ) ) );
     }
     
