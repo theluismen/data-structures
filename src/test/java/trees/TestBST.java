@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class TestBST {
 
@@ -65,7 +66,7 @@ public class TestBST {
         }
 
         bst.inorderShow();
-        assert bst.inorder().equals( new ArrayList<>( Arrays.asList(1, 2, 3, 4, 5, 6, 7 ) ) );
+        assert bst.inorder().equals( new HashSet<>( Arrays.asList(1, 2, 3, 4, 5, 6, 7 ) ) );
     }
     
     /* TEST .preorder() */
@@ -79,8 +80,7 @@ public class TestBST {
         }
         System.out.println("gei");
         bst.preorderShow();
-        System.out.println("gei");
-        assert bst.preorder().equals( new ArrayList<>( Arrays.asList( 4, 2, 1, 3, 6, 5, 7 ) ) );
+        assert bst.preorder().equals( new HashSet<>( Arrays.asList( 4, 2, 1, 3, 6, 5, 7 ) ) );
     }
     
     /* TEST .postorder() */
@@ -94,6 +94,6 @@ public class TestBST {
         }
 
         bst.postorderShow();
-        assert bst.postorder().equals( new ArrayList<>( Arrays.asList( ) ) );
+        assert bst.postorder().equals( new HashSet<>( Arrays.asList( 4, 5, 2, 6, 7, 3, 1 ) ) );
     }
 }

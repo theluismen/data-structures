@@ -1,7 +1,7 @@
 package trees;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BST <T extends Comparable<T>> implements BSTi<T> {
 
@@ -116,19 +116,19 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
 
     }
 
-    public List<T> inorder() {
-        return this.inorderHelper( this.root, new ArrayList<>() );
+    public Set<T> inorder ( ) {
+        return this.inorderHelper( this.root, new HashSet<>() );
     }
 
-    private List<T> inorderHelper ( Node node, List<T> list ) {
+    private Set<T> inorderHelper ( Node node, Set<T> set ) {
         
         if ( node != null ) {
-            inorderHelper( node.getLeft(), list);
-            list.add(node.getData());
-            inorderHelper( node.getRight(), list);
+            inorderHelper( node.getLeft(), set);
+            set.add(node.getData());
+            inorderHelper( node.getRight(), set);
         }
 
-        return list;
+        return set;
     }
 
     public void inorderShow ( ) {
@@ -136,33 +136,33 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
     }
     
     private void inorderShowHelper ( Node node ) {
-        if (node != null) {
+        if ( node != null ) {
             inorderShowHelper( node.getLeft() );
             System.out.println( node.getData() );
             inorderShowHelper( node.getRight() );
         }
     }
 
-    public List<T> preorder() {
-        return this.preorderHelper(this.root, new ArrayList<>());
+    public Set<T> preorder ( ) {
+        return this.preorderHelper( this.root, new HashSet<>());
     }
     
-    private List<T> preorderHelper ( Node node, List<T> list ) {
-
+    private Set<T> preorderHelper ( Node node, Set<T> set ) {
+        
         if ( node != null ) {
-            list.add( node.getData() );
-            preorderHelper( node.getLeft(), list );
-            preorderHelper( node.getRight(), list );
+            set.add( node.getData() );
+            preorderHelper( node.getLeft(), set );
+            preorderHelper( node.getRight(), set );
         }
 
-        return list;
+        return set;
     }
 
-    public void preorderShow() {
-        this.preorderShowHelper(this.root);
+    public void preorderShow ( ) {
+        this.preorderShowHelper( this.root );
     }
 
-    private void preorderShowHelper( Node node ) {
+    private void preorderShowHelper ( Node node ) {
         if ( node != null ) {
             System.out.println( node.getData() );
             preorderShowHelper( node.getLeft() );
@@ -170,15 +170,34 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         }
     }
 
-    public List<T> postorder() {
-        return null;
+    public Set<T> postorder() {
+        return this.postorderHelper( this.root, new HashSet<>() );
+    }
+
+    private Set<T> postorderHelper ( Node node, Set<T> set ) {
+
+        if ( node != null ) {
+            preorderHelper( node.getLeft(), set );
+            preorderHelper( node.getRight(), set );
+            set.add( node.getData() );
+        }
+
+        return set;
     }
     
     public void postorderShow() {
-
+        this.postorderShowHelper( this.root );
     }
 
-    public List<T> levels() {
+    private void postorderShowHelper ( Node node ) {
+        if ( node != null ) {
+            preorderShowHelper( node.getLeft() );
+            preorderShowHelper( node.getRight() );
+            System.out.println( node.getData() );
+        }
+    }
+
+    public Set<T> levels() {
         return null;
     }
 

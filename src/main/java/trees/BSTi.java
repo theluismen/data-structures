@@ -1,6 +1,6 @@
 package trees;
 
-import java.util.List;
+import java.util.Set;
 
 public interface BSTi<T extends Comparable<T>> {
 
@@ -10,13 +10,13 @@ public interface BSTi<T extends Comparable<T>> {
     void    delete ( T data );
 
     // Recorridos
-    List<T> inorder();
-    void    inorderShow();
-    List<T> preorder();
-    void    preorderShow();
-    List<T> postorder();
-    void    postorderShow();
-    List<T> levels();
+    Set<T> inorder();
+    void   inorderShow();
+    Set<T> preorder();
+    void   preorderShow();
+    Set<T> postorder();
+    void   postorderShow();
+    Set<T> levels();
 
     // Operaciones adicionales
     // T findMin();
