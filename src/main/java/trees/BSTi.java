@@ -2,14 +2,16 @@ package trees;
 
 import java.util.Set;
 
+import exceptions.ElementNotFound;
+
 public interface BSTi<T extends Comparable<T>> {
 
-    // Operaciones básicas
+    /* Operaciones Básicas */
     void    insert ( T data );
     boolean search ( T data );
-    void    delete ( T data );
+    void    delete ( T data ) throws ElementNotFound;
 
-    // Recorridos
+    /* Recorridos */
     Set<T> inorder();
     void   inorderShow();
     Set<T> preorder();
@@ -18,14 +20,14 @@ public interface BSTi<T extends Comparable<T>> {
     void   postorderShow();
     Set<T> levels();
 
-    // Operaciones adicionales
-    // T findMin();
-    // T findMax();
-    // T successor(T data);
+    /* Operaciones Adicionales */
+    T min();
+    T max();
+    T successor( T data ) throws ElementNotFound;
     // T predecessor(T data);
     // int height();
     int     size();
-    boolean isEmpty();
+    boolean empty();
     void    clear();
     // boolean isBalanced();
 }

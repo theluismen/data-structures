@@ -1,9 +1,11 @@
 package trees;
 
 import org.junit.jupiter.api.Test;
+
+import exceptions.ElementNotFound;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -15,11 +17,21 @@ public class TestBST {
     public void test_insert_1 () {
         BST<Integer> bst = new BST<>();
         
-        for ( int i = 1; i <= 20; i++) {
+        for ( int i = 1; i <= 20; i++) 
             bst.insert( i );
-        }
         
         assertEquals(20, bst.size());
+    }
+
+    @Test
+    public void test_insert_2 () {
+        BST<Integer> bst = new BST<>();
+        
+        bst.insert( 3 );
+        bst.insert( 3 );
+        bst.insert( 3 );
+        
+        assertEquals(1, bst.size());
     }
     
     /* TEST .search() */
@@ -53,7 +65,26 @@ public class TestBST {
         assertEquals(true, bst.search(77));
     }
 
+    @Test
+    public void test_search_4 () {
+        BST<Integer> bst = new BST<>();
 
+        for (int i = 1; i <= 1000; i++) {
+            bst.insert(i);
+        }
+
+        assertEquals(true, bst.search(333));
+    }
+
+    @Test
+    public void test_search_5 () {
+        BST<Integer> bst = new BST<>();
+
+        for (int i = 1; i <= 1000; i++) 
+            bst.insert(i);
+        
+        assertEquals(false, bst.search(2000));
+    }
 
     /* TEST .inorder() */
 
@@ -95,5 +126,103 @@ public class TestBST {
 
         bst.postorderShow();
         assert bst.postorder().equals( new HashSet<>( Arrays.asList( 4, 5, 2, 6, 7, 3, 1 ) ) );
+    }
+    
+    /* TEST .min() */
+    
+    @Test
+    public void test_min_1 () {
+        BST<Integer>  bst = new BST<>();
+        
+        for ( int i = 100; i <= 500; i++) {
+            bst.insert( i );
+        }
+        
+        assertEquals(100, bst.min() );
+    }
+    
+    /* TEST .max() */
+    
+    @Test
+    public void test_max_1 () {
+        BST<Integer>  bst = new BST<>();
+
+        for ( int i = 100; i <= 500; i++) {
+            bst.insert( i );
+        }
+
+        assertEquals(500, bst.max() );
+    }
+    
+    /* TEST .successor() */
+    
+    @Test
+    public void test_successor_1 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+        
+        assertEquals(2, bst.successor(1) );
+    }
+    
+    @Test
+    public void test_successor_2 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+
+        assertEquals(3, bst.successor(2) );
+    }
+    
+    @Test
+    public void test_successor_3 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+
+        assertEquals(12, bst.successor(10) );
+    }
+    
+    @Test
+    public void test_successor_4 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+
+        assertThrows(ElementNotFound.class, () -> { 
+            bst.successor(11);
+        });
     }
 }

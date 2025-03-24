@@ -3,30 +3,43 @@ package trees;
 import java.util.HashSet;
 import java.util.Set;
 
+import exceptions.ElementNotFound;
+
 public class BST <T extends Comparable<T>> implements BSTi<T> {
 
-    // Clase Nodo
+    /* Clase Nodo */
     private class Node {
         /* Atributos */
         private T       data;
+        private Node    father;
         private Node    left;
         private Node    right;
 
         /* Constructor */
-        public Node(T data) {
+        public Node( T data ) {
             this.data   = data;
+            this.father = null;
             this.left   = null;
             this.right  = null;
         }
 
         /* Metodos */
-        public boolean isLeaf () {
-            return this.left == null && this.right == null;
+        public int nChildren () {
+            int n = 0;
+            if ( this.left != null ) 
+                n++;
+            if ( this.right != null ) 
+                n++;
+            return n;
         }
 
         // Getters
         public T getData() {
             return this.data;
+        }
+
+        public Node getFather () {
+            return this.father;
         }
 
         public Node getLeft() {
@@ -38,8 +51,12 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         }
 
         // Setters
-        public void setData(T data) {
+        /* public void setData(T data) {
             this.data = data;
+        } */
+
+        public void setFather(Node father) {
+            this.father = father;
         }
 
         public void setLeft(Node left) {
@@ -52,19 +69,21 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
     }
 
     /* Atributos */
+
     private Node root;
     private int nElem;
 
     /* Constructor */
+
     public BST () {
         this.root  = null;
         this.nElem = 0;
     }
 
-    /* Métodos */
+    /* Operaciones Básicas */
 
     public void insert ( T data ) {
-        Node node = this.root;
+        Node node, newNode;
 
         // Si esta vacio inicializo la root con la data
         if ( this.root == null ) {
@@ -73,8 +92,14 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             return;
         } 
 
+        node = this.root;
+
         // Si no, recorro arbol hasta que encuentre una hoja
         while ( true ) {
+            // Si hay un repetido, me la suda
+            if ( data.compareTo(node.getData()) == 0 ) 
+                return;
+            
             if ( data.compareTo( node.getData() ) < 0 ) {
                 if ( node.getLeft() == null ) 
                     break;
@@ -82,17 +107,21 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             }
 
             if ( data.compareTo( node.getData() ) > 0 ) {
-                if (node.getRight() == null) 
+                if ( node.getRight() == null ) 
                     break;
                 node = node.getRight();
             }
         }
 
+        // Crear Nodo Hijo enlazado al padre (node)
+        newNode = new Node ( data );
+        newNode.setFather( node );
+
         if ( data.compareTo( node.getData() ) < 0 ) 
-            node.setLeft( new Node( data ) );
+            node.setLeft( newNode );
         
         if ( data.compareTo( node.getData() ) > 0 ) 
-            node.setRight( new Node( data ) );
+            node.setRight( newNode );
         
         this.nElem ++;
     }
@@ -112,9 +141,47 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         return false;
     }
 
-    public void delete( T data ) {
+    public void delete( T data ) throws ElementNotFound {
+        Node node;
+        
+        /* Buscar Nodo */
+        try {
+            node = this.get( data );
+        } catch ( ElementNotFound e ) {
+            throw new ElementNotFound();
+        }
+
+        /* Nodo a borrar es una hoja */
+        if ( node.nChildren() == 0 ) {
+            if ( node.getFather().getData().compareTo( node.getData() ) <= 0  ) {
+                node.getFather().setRight( null );
+            } else {
+                node.getFather().setLeft( null );
+            }
+            node.setFather(null);
+            return;
+        }
+
+        /* Nodo a borrar tiene un hijo */
 
     }
+
+    private Node get ( T data ) throws ElementNotFound {
+        Node node = this.root;
+
+        while ( node != null ) {
+            if ( data.compareTo( node.getData() ) == 0 )
+                return node;
+            if ( data.compareTo( node.getData() ) < 0 )
+                node = node.getLeft();
+            if ( data.compareTo( node.getData() ) > 0 )
+                node = node.getRight();
+        }
+
+        throw new ElementNotFound();
+    }
+
+    /* Recorridos */
 
     public Set<T> inorder ( ) {
         return this.inorderHelper( this.root, new HashSet<>() );
@@ -196,22 +263,76 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             System.out.println( node.getData() );
         }
     }
-
+ 
     public Set<T> levels() {
         return null;
     }
+    
+    /* Operaciones Adicionales */
+
+    public T min () {
+        return ( this.root == null ) ? null: min( this.root );
+    }
+
+    private T min ( Node node ) {
+        Node n = node;
+        
+        while ( true ) {
+            if ( n.getLeft() == null )
+                break;
+            n = n.getLeft();
+        }
+
+        return n.getData();
+    }
+
+    public T max ( ) {
+        return ( this.root == null ) ? null: max( this.root );
+    }
+
+    private T max ( Node node ) {
+        Node n = node;
+        
+        while ( true ) {
+            if ( n.getRight() == null )
+                break;
+            n = n.getRight();
+        }
+
+        return n.getData();
+    }
+
+    public T successor ( T data ) throws ElementNotFound {
+        Node node;
+        
+        /* Buscar Nodo */
+        try {
+            node = this.get( data );
+        } catch ( ElementNotFound e ) {
+            throw new ElementNotFound();
+        }
+
+        /* Si tiene subarbol derecho, devolver mínimo */
+        if ( node.getRight() != null ) 
+            return this.min( node.getRight() );
+        
+        /* Si no tiene, ir hacia arriba hasta encontrar uno mayor */
+        while ( node.getFather().getData().compareTo( node.getData() ) <= 0 ) {
+            node = node.getFather();
+        }
+
+        return node.getFather().getData();
+    }  
 
     public int size ( ) {
         return this.nElem;
     }
 
-    public boolean isEmpty ( ) {
-        return this.nElem == 0;
+    public boolean empty ( ) {
+        return this.root == null;
     }
 
     public void clear ( ) {
 
     }
-
-
 }
