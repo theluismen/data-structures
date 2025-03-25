@@ -1,6 +1,8 @@
 package trees;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
 
 import exceptions.ElementNotFound;
@@ -321,7 +323,28 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
     }
  
     public Set<T> levels() {
-        return null;
+        Queue<Node> cola = new ArrayDeque<>();
+        Set<T> levels    = new HashSet<>();
+        Node node;
+
+        if ( this.root == null ) 
+            return levels;
+        
+        cola.add( this.root );
+
+        while ( ! cola.isEmpty() ) {
+            node = cola.poll();
+
+            if ( node.getLeft() != null ) 
+                cola.add( node.getLeft() );
+
+            if ( node.getRight() != null ) 
+                cola.add( node.getRight() );
+                
+            levels.add(node.getData());
+        }
+
+        return levels;
     }
     
     /* Operaciones Adicionales */

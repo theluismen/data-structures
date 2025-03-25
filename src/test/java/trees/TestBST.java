@@ -406,7 +406,6 @@ public class TestBST {
         assert bst.preorder().equals(new HashSet<>(Arrays.asList(7, 2, 1, 4, 3, 12, 9, 10)));
     }
 
-
     /* TEST .inorder() */
 
     @Test
@@ -449,6 +448,35 @@ public class TestBST {
         assert bst.postorder().equals( new HashSet<>( Arrays.asList( 4, 5, 2, 6, 7, 3, 1 ) ) );
     }
     
+    /* TEST .levels() */
+    
+    @Test
+    public void test_levels_1 () {
+        BST<Integer>  bst = new BST<>();
+
+        for ( int i = 1; i <= 10; i++) 
+            bst.insert( i );
+        
+        assert bst.levels().equals( new HashSet<>( Arrays.asList( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ) ) );
+    }
+    
+    @Test
+    public void test_levels_2 () {
+        BST<Integer>  bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        assert bst.levels().equals( new HashSet<>( Arrays.asList( 5, 2, 7, 1, 4, 12, 3, 9, 10 ) ) );
+    }
+
     /* TEST .min() */
     
     @Test
