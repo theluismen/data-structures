@@ -85,6 +85,327 @@ public class TestBST {
         
         assertEquals(false, bst.search(2000));
     }
+    
+    /* TEST .delete() */
+    
+    @Test
+    public void test_delete_0 () {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+        
+        assertThrows(ElementNotFound.class, () -> {
+            bst.delete(11);
+        });
+    }
+    
+    @Test
+    public void test_delete_1_1 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.delete(5);
+        
+        assertEquals(0, bst.size() );
+    }
+    
+    @Test
+    public void test_delete_1_2 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+        
+        bst.delete(1);
+        
+        assertEquals(8, bst.size() );
+    }
+    
+    @Test
+    public void test_delete_1_3 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+        
+        bst.delete(1);
+        
+        assert bst.preorder().equals( new HashSet<>( Arrays.asList(5, 2, 4, 3, 7, 12, 9, 10) ));
+    }
+    
+    @Test
+    public void test_delete_1_4 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+        
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+        
+        bst.delete(10);
+        
+        assertEquals(8, bst.size() );
+    }
+    
+    @Test
+    public void test_delete_1_5 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+        
+        bst.delete(10);
+        
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(5, 2, 1, 4, 3, 7, 12, 9)));
+    }
+    
+    @Test
+    public void test_delete_2_1 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(6);
+        bst.delete(5);
+
+        assertEquals(1, bst.size());
+    }
+    
+    @Test
+    public void test_delete_2_2 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(6);
+
+        bst.delete(5);
+
+        assertEquals(1, bst.size());
+    }
+    
+    @Test
+    public void test_delete_2_3 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(6);
+
+        bst.delete(5);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(6)));
+    }
+
+    @Test
+    public void test_delete_2_4 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(4);
+
+        assertEquals(8, bst.size());
+    }
+
+    @Test
+    public void test_delete_2_5 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(4);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(5, 2, 1, 3, 7, 12, 9, 10)));
+    }
+
+    @Test
+    public void test_delete_2_6 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(7);
+
+        assertEquals(8, bst.size());
+    }
+
+    @Test
+    public void test_delete_2_7 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(7);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(5, 2, 1, 4, 3, 12, 9, 10)));
+    }
+    
+    @Test
+    public void test_delete_3_0 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(3);
+        bst.insert(7);
+
+        bst.delete(5);
+
+        assertEquals(2, bst.size());
+    }
+    
+    @Test
+    public void test_delete_3_1 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(3);
+        bst.insert(7);
+
+        bst.delete(5);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(7,3)));
+    }
+    
+    @Test
+    public void test_delete_3_2 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(2);
+
+        assertEquals(8, bst.size());
+    }
+
+    @Test
+    public void test_delete_3_3 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(2);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(5, 3, 1, 4, 7, 12, 9, 10)));
+    }
+    
+    @Test
+    public void test_delete_3_4 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(5);
+
+        assertEquals(8, bst.size());
+    }
+
+    @Test
+    public void test_delete_3_5 () throws ElementNotFound {
+        BST<Integer> bst = new BST<>();
+
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(7);
+        bst.insert(12);
+        bst.insert(9);
+        bst.insert(10);
+
+        bst.delete(5);
+
+        assert bst.preorder().equals(new HashSet<>(Arrays.asList(7, 2, 1, 4, 3, 12, 9, 10)));
+    }
+
 
     /* TEST .inorder() */
 

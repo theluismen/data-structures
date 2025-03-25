@@ -51,9 +51,9 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         }
 
         // Setters
-        /* public void setData(T data) {
+        public void setData(T data) {
             this.data = data;
-        } */
+        }
 
         public void setFather(Node father) {
             this.father = father;
@@ -153,17 +153,73 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
 
         /* Nodo a borrar es una hoja */
         if ( node.nChildren() == 0 ) {
-            if ( node.getFather().getData().compareTo( node.getData() ) <= 0  ) {
-                node.getFather().setRight( null );
-            } else {
-                node.getFather().setLeft( null );
+
+            if ( node == this.root ) {
+                this.root = null;
+                this.nElem--;
+                return;
             }
+            
+            if ( node.getFather().getData().compareTo( node.getData() ) < 0  ) 
+                node.getFather().setRight( null );
+            else 
+                node.getFather().setLeft( null );
+            
             node.setFather(null);
+            this.nElem--;
             return;
         }
 
         /* Nodo a borrar tiene un hijo */
+        if ( node.nChildren() == 1 ) {
 
+            if ( node == this.root ) {
+                this.root = ( node.getLeft() != null) ? node.getLeft() : node.getRight();
+                this.nElem--;
+                return;
+            }
+
+            if ( node == node.getFather().getLeft() ) {
+                if ( node.getLeft() != null ) {
+                    node.getFather().setLeft( node.getLeft() );
+                    node.getLeft().setFather( node.getFather() );
+                } else {
+                    node.getFather().setLeft( node.getRight() );
+                    node.getRight().setFather( node.getFather() );
+                    
+                }
+            } else {
+                if ( node.getLeft() != null ) {
+                    node.getFather().setRight( node.getLeft() );
+                    node.getLeft().setFather( node.getFather() );
+                } else {
+                    node.getFather().setRight( node.getRight() );
+                    node.getRight().setFather( node.getFather() );
+                }
+            }
+            this.nElem--;
+            return;
+        }
+
+        /* Nodo a borrar tiene 2 hijos, node.nChildren() == 2 */
+        Node suc = this.minNode( node.getRight() );
+        node.setData( suc.getData() );
+
+        if ( suc.getRight() == null ) { // Sucesor sin hijos
+            if ( suc.getFather().getLeft() == suc ) {
+                suc.getFather().setLeft(null);
+            } else {
+                suc.getFather().setRight(null);
+            }
+        } else {
+            if ( suc.getFather().getLeft() == suc ) {
+                suc.getFather().setLeft( suc.getRight() );
+            } else {
+                suc.getFather().setRight( suc.getRight() );
+            }
+        }
+        suc.setFather( null );
+        this.nElem--;
     }
 
     private Node get ( T data ) throws ElementNotFound {
@@ -271,10 +327,10 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
     /* Operaciones Adicionales */
 
     public T min () {
-        return ( this.root == null ) ? null: min( this.root );
+        return ( this.root == null ) ? null: minNode( this.root ).getData();
     }
 
-    private T min ( Node node ) {
+    private Node minNode ( Node node ) {
         Node n = node;
         
         while ( true ) {
@@ -283,14 +339,14 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             n = n.getLeft();
         }
 
-        return n.getData();
+        return n;
     }
 
     public T max ( ) {
-        return ( this.root == null ) ? null: max( this.root );
+        return ( this.root == null ) ? null: maxNode( this.root ).getData();
     }
 
-    private T max ( Node node ) {
+    private Node maxNode ( Node node ) {
         Node n = node;
         
         while ( true ) {
@@ -299,7 +355,7 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             n = n.getRight();
         }
 
-        return n.getData();
+        return n;
     }
 
     public T successor ( T data ) throws ElementNotFound {
@@ -314,7 +370,7 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
 
         /* Si tiene subarbol derecho, devolver mínimo */
         if ( node.getRight() != null ) 
-            return this.min( node.getRight() );
+            return this.minNode( node.getRight() ).getData();
         
         /* Si no tiene, ir hacia arriba hasta encontrar uno mayor */
         while ( node.getFather().getData().compareTo( node.getData() ) <= 0 ) {
