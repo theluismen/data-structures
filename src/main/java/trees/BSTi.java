@@ -25,7 +25,7 @@ public interface BSTi<T extends Comparable<T>> {
     T max();
     T successor( T data ) throws ElementNotFound;
     // T predecessor(T data);
-    // int height();
+    int     height();
     int     size();
     boolean empty();
     void    clear();

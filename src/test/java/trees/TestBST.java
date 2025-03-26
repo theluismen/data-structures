@@ -508,7 +508,7 @@ public class TestBST {
     @Test
     public void test_successor_1 () throws ElementNotFound {
         BST<Integer>  bst = new BST<>();
-
+        
         bst.insert( 5 );
         bst.insert( 2 );
         bst.insert( 1 );
@@ -525,7 +525,7 @@ public class TestBST {
     @Test
     public void test_successor_2 () throws ElementNotFound {
         BST<Integer>  bst = new BST<>();
-
+        
         bst.insert( 5 );
         bst.insert( 2 );
         bst.insert( 1 );
@@ -535,14 +535,14 @@ public class TestBST {
         bst.insert( 12 );
         bst.insert( 9 );
         bst.insert( 10 );
-
+        
         assertEquals(3, bst.successor(2) );
     }
     
     @Test
     public void test_successor_3 () throws ElementNotFound {
         BST<Integer>  bst = new BST<>();
-
+        
         bst.insert( 5 );
         bst.insert( 2 );
         bst.insert( 1 );
@@ -552,14 +552,14 @@ public class TestBST {
         bst.insert( 12 );
         bst.insert( 9 );
         bst.insert( 10 );
-
+        
         assertEquals(12, bst.successor(10) );
     }
     
     @Test
     public void test_successor_4 () throws ElementNotFound {
         BST<Integer>  bst = new BST<>();
-
+        
         bst.insert( 5 );
         bst.insert( 2 );
         bst.insert( 1 );
@@ -569,9 +569,45 @@ public class TestBST {
         bst.insert( 12 );
         bst.insert( 9 );
         bst.insert( 10 );
-
+        
         assertThrows(ElementNotFound.class, () -> { 
             bst.successor(11);
         });
+    }
+    
+    /* TEST .successor() */
+    
+    @Test
+    public void test_height_0 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+        assertEquals(-1, bst.height() );
+    }
+    
+    @Test
+    public void test_height_1 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+        
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+        
+        assertEquals(4, bst.height());
+    }
+    
+    @Test
+    public void test_height_2 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+
+        for ( int i = 1; i <= 100; i++ ) {
+            bst.insert( i );
+        }
+        
+        assertEquals(99, bst.height());
     }
 }

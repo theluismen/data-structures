@@ -403,6 +403,22 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
         return node.getFather().getData();
     }  
 
+    public int height () {
+        return this.height( this.root );
+    }
+
+    private int height ( Node node ) {
+        int leftHeight, rightHeight;
+
+        if ( node == null ) 
+            return -1;
+        
+        leftHeight = this.height( node.getLeft() );
+        rightHeight = this.height( node.getRight() );
+
+        return 1 + Integer.max( leftHeight, rightHeight);
+    }
+
     public int size ( ) {
         return this.nElem;
     }
