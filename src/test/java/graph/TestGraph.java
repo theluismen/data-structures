@@ -2,8 +2,6 @@ package graph;
 
 import org.junit.jupiter.api.Test;
 
-import graph.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
