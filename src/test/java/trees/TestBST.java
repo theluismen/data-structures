@@ -575,6 +575,23 @@ public class TestBST {
         });
     }
     
+    @Test
+    public void test_successor_5 () throws ElementNotFound {
+        BST<Integer>  bst = new BST<>();
+        
+        bst.insert( 5 );
+        bst.insert( 2 );
+        bst.insert( 1 );
+        bst.insert( 4 );
+        bst.insert( 3 );
+        bst.insert( 7 );
+        bst.insert( 12 );
+        bst.insert( 9 );
+        bst.insert( 10 );
+        
+        assertEquals(null, bst.successor(12));
+    }
+    
     /* TEST .successor() */
     
     @Test

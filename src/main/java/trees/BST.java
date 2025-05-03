@@ -396,11 +396,12 @@ public class BST <T extends Comparable<T>> implements BSTi<T> {
             return this.minNode( node.getRight() ).getData();
         
         /* Si no tiene, ir hacia arriba hasta encontrar uno mayor */
-        while ( node.getFather().getData().compareTo( node.getData() ) <= 0 ) {
+        while ( node.getFather() != null && node.getFather().getData().compareTo( node.getData() ) <= 0 ) {
+            // Si subiendo nunca encuentro uno mayor, devuelvo el mismo valor como sucesor
             node = node.getFather();
         }
 
-        return node.getFather().getData();
+        return ( node.getFather() != null ) ? node.getFather().getData() : null;
     }  
 
     public int height () {
